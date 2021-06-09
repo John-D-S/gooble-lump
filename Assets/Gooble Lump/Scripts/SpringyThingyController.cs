@@ -25,7 +25,6 @@ public class SpringyThingyController : MonoBehaviour
     [SerializeField, HideInInspector]
     private float defaultJointLength;
 
-    private Vector2 averagePosition;
     public Vector2 AveragePosition
     {
         get => Vector2.Lerp(halfA.position, halfB.position, 0.5f);
@@ -79,8 +78,25 @@ public class SpringyThingyController : MonoBehaviour
         halfB.AddTorque(torqueToAdd);
     }
 
+    void ApplyAerodynamics()
+    {
+        if (Extended)
+        {
+            Vector2 halfAVelocity = (halfA.transform.rotation * halfA.velocity);
+            Vector2 halfBVelocity = (halfB.transform.rotation * halfB.velocity);
+            Vector2 averageRelativeVelocity = Vector2.Lerp(halfAVelocity, halfBVelocity, 0.5f);
+            Vector2 averageVelocity = Vector2.Lerp(halfA.velocity, halfB.velocity, 0.5f);
+            Vector2 relativeForceToApply = averageRelativeVelocity.x * Vector3.right * AerodynamicAffect * halfA.mass;
+            halfA.AddRelativeForce(relativeForceToApply, ForceMode2D.Force);
+            halfB.AddRelativeForce(relativeForceToApply, ForceMode2D.Force);
+            Debug.DrawLine(AveragePosition, AveragePosition + averageVelocity, Color.green);
+            Debug.DrawLine(AveragePosition, AveragePosition + (Vector2)(halfA.transform.rotation * relativeForceToApply), Color.red);
+        }
+    }
+
     private void FixedUpdate()
     {
+        ApplyAerodynamics();
         ApplyTorque();
     }
 }
