@@ -17,7 +17,7 @@ public class SpringyThingyController : MonoBehaviour
     private float springForce = 1f;
     [SerializeField]
     private float spinningTorque = 1f;
-    [SerializeField, Range(0, 1)]
+    [SerializeField]
     float AerodynamicAffect = 0.75f;
 
     [SerializeField, HideInInspector]
@@ -82,15 +82,15 @@ public class SpringyThingyController : MonoBehaviour
     {
         if (Extended)
         {
-            Vector2 halfAVelocity = (halfA.transform.rotation * halfA.velocity);
-            Vector2 halfBVelocity = (halfB.transform.rotation * halfB.velocity);
-            Vector2 averageRelativeVelocity = Vector2.Lerp(halfAVelocity, halfBVelocity, 0.5f);
             Vector2 averageVelocity = Vector2.Lerp(halfA.velocity, halfB.velocity, 0.5f);
-            Vector2 relativeForceToApply = averageRelativeVelocity.x * Vector3.right * AerodynamicAffect * halfA.mass;
-            halfA.AddRelativeForce(relativeForceToApply, ForceMode2D.Force);
-            halfB.AddRelativeForce(relativeForceToApply, ForceMode2D.Force);
+            Vector2 directionPerpandicularToWing = Vector2.Perpendicular((halfB.position - halfA.position).normalized);
+            //this is the angle between the average velocity of the wing and the direction perpandicular to it.
+            float angle = Vector2.Angle(averageVelocity, directionPerpandicularToWing);
+            float forceToApply = -averageVelocity.magnitude * Mathf.Cos(Mathf.Deg2Rad * angle) * AerodynamicAffect;
+            halfA.AddForce(forceToApply * directionPerpandicularToWing);
+            halfB.AddForce(forceToApply * directionPerpandicularToWing);
             Debug.DrawLine(AveragePosition, AveragePosition + averageVelocity, Color.green);
-            Debug.DrawLine(AveragePosition, AveragePosition + (Vector2)(halfA.transform.rotation * relativeForceToApply), Color.red);
+            Debug.DrawLine(AveragePosition, AveragePosition + forceToApply * directionPerpandicularToWing, Color.red);
         }
     }
 

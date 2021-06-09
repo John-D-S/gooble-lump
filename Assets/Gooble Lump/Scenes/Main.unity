@@ -172,8 +172,8 @@ MonoBehaviour:
   halfB: {fileID: 79204158}
   extendedLength: -5
   springForce: 500
-  spinningTorque: 10
-  AerodynamicAffect: 1
+  spinningTorque: 25
+  AerodynamicAffect: 3
   joint: {fileID: 1912046034}
   defaultJointLength: -0.5
 --- !u!1 &79204155
@@ -334,7 +334,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f757c924afeac414f925ae4f46bba24d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  lerpPosition: 0
+  lerpPosition: 1
 --- !u!20 &519420031
 Camera:
   m_ObjectHideFlags: 0
@@ -362,7 +362,7 @@ Camera:
   far clip plane: 1000
   field of view: 60
   orthographic: 1
-  orthographic size: 50
+  orthographic size: 10
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
