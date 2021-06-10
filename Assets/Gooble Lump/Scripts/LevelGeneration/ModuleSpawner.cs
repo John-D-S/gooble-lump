@@ -4,15 +4,16 @@ using UnityEngine;
 
 public class ModuleSpawner : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    [SerializeField]
+    private List<GameObject> levelModules;
+    [SerializeField]
+    public float SpawnSquareSideLength;
 
-    // Update is called once per frame
-    void Update()
+    private void Start()
     {
-        
+        int indexOfModuletoSpawn = Random.Range(0, levelModules.Count);
+        float spawnXPos = Random.Range(-SpawnSquareSideLength * 0.5f, SpawnSquareSideLength * 0.5f);
+        float spawnYPos = Random.Range(-SpawnSquareSideLength * 0.5f, SpawnSquareSideLength * 0.5f);
+        Instantiate(levelModules[indexOfModuletoSpawn], (Vector2)transform.position + new Vector2(spawnXPos, spawnYPos), Quaternion.identity, gameObject.transform);
     }
 }

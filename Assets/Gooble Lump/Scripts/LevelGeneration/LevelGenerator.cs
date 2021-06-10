@@ -15,6 +15,8 @@ public class LevelGenerator : MonoBehaviour
     float moduleSpawnerGridDistance = 10;
     
     [SerializeField, HideInInspector]
+    private ModuleSpawner moduleSpawnerScript;
+    [SerializeField, HideInInspector]
     private Vector2 levelGenAnglePos;
 
     private Dictionary<Vector2, GameObject> moduleSpawners = new Dictionary<Vector2, GameObject>();
@@ -57,6 +59,10 @@ public class LevelGenerator : MonoBehaviour
     private void OnValidate()
     {
         levelGenAnglePos = new Vector2(Mathf.Sin(Mathf.Deg2Rad * levelGenerationAngle * 0.5f), Mathf.Cos(Mathf.Deg2Rad * levelGenerationAngle * 0.5f));
+        if (moduleSpawnerObject)
+        {
+            moduleSpawnerScript = moduleSpawnerObject.GetComponent<ModuleSpawner>();
+        }
     }
 
     private void FixedUpdate()
