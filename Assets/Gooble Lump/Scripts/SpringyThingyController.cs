@@ -43,6 +43,29 @@ public class SpringyThingyController : MonoBehaviour
     }
     float currentTorque;
 
+    void ApplyAerodynamics()
+    {
+        if (Extended)
+        {
+            Vector2 averageVelocity = Vector2.Lerp(halfA.velocity, halfB.velocity, 0.5f);
+            Vector2 directionPerpandicularToWing = Vector2.Perpendicular((halfB.position - halfA.position).normalized);
+            //this is the angle between the average velocity of the wing and the direction perpandicular to it.
+            float angle = Vector2.Angle(averageVelocity, directionPerpandicularToWing);
+            float forceToApply = -averageVelocity.magnitude * Mathf.Cos(Mathf.Deg2Rad * angle) * AerodynamicAffect;
+            halfA.AddForce(forceToApply * directionPerpandicularToWing);
+            halfB.AddForce(forceToApply * directionPerpandicularToWing);
+            Debug.DrawLine(AveragePosition, AveragePosition + averageVelocity, Color.green);
+            Debug.DrawLine(AveragePosition, AveragePosition + forceToApply * directionPerpandicularToWing, Color.red);
+        }
+    }
+
+    void ApplyTorque()
+    {
+        float torqueToAdd = currentTorque * 0.5f * Vector2.Distance(halfA.position, halfB.position);
+        halfA.AddTorque(torqueToAdd);
+        halfB.AddTorque(torqueToAdd);
+    }
+
     private void OnValidate()
     {
         if (halfA && halfB)
@@ -61,6 +84,11 @@ public class SpringyThingyController : MonoBehaviour
         }
     }
 
+    private void Start()
+    {
+        StaticObjectHolder.player = this;
+    }
+
     private void Update()
     {
         //jumping
@@ -69,29 +97,6 @@ public class SpringyThingyController : MonoBehaviour
         //torqueing
         currentTorque = 0;
         currentTorque -= Input.GetAxisRaw("Horizontal") * spinningTorque;
-    }
-
-    void ApplyTorque()
-    {
-        float torqueToAdd = currentTorque * 0.5f * Vector2.Distance(halfA.position, halfB.position);
-        halfA.AddTorque(torqueToAdd);
-        halfB.AddTorque(torqueToAdd);
-    }
-
-    void ApplyAerodynamics()
-    {
-        if (Extended)
-        {
-            Vector2 averageVelocity = Vector2.Lerp(halfA.velocity, halfB.velocity, 0.5f);
-            Vector2 directionPerpandicularToWing = Vector2.Perpendicular((halfB.position - halfA.position).normalized);
-            //this is the angle between the average velocity of the wing and the direction perpandicular to it.
-            float angle = Vector2.Angle(averageVelocity, directionPerpandicularToWing);
-            float forceToApply = -averageVelocity.magnitude * Mathf.Cos(Mathf.Deg2Rad * angle) * AerodynamicAffect;
-            halfA.AddForce(forceToApply * directionPerpandicularToWing);
-            halfB.AddForce(forceToApply * directionPerpandicularToWing);
-            Debug.DrawLine(AveragePosition, AveragePosition + averageVelocity, Color.green);
-            Debug.DrawLine(AveragePosition, AveragePosition + forceToApply * directionPerpandicularToWing, Color.red);
-        }
     }
 
     private void FixedUpdate()
