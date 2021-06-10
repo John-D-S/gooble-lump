@@ -84,7 +84,7 @@ public class SpringyThingyController : MonoBehaviour
         }
     }
 
-    private void Start()
+    private void Awake()
     {
         StaticObjectHolder.player = this;
     }
