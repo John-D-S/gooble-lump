@@ -45,8 +45,8 @@ public class ScoreSystem : MonoBehaviour
         if (playerHeight > playerMaxHeight)
         {
             playerMaxHeight = playerHeight;
-            SetBarHeight(playerHeight);
             Score = playerHeight - playerStartingHeight;
         }
+        SetBarHeight(playerMaxHeight);
     }
 }

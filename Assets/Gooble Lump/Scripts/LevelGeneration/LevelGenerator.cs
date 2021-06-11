@@ -7,8 +7,12 @@ public class LevelGenerator : MonoBehaviour
 {
     [SerializeField, Tooltip("The ")]
     private float levelGenerationAngle = 45f;
+    [SerializeField]
+    private float startClearRadius;
     [SerializeField, Tooltip("The radius around the player where the level will generate")]
-    private float spawnerSpawningRadius = 35f;
+    private float spawnerSpawningRadius = 50f;
+    [SerializeField]
+    private float playerSpawnAreaRadius = 50f;
     [SerializeField]
     private GameObject moduleSpawnerObject;
     [SerializeField]
@@ -40,10 +44,10 @@ public class LevelGenerator : MonoBehaviour
         }
     }
 
-    private List<Vector2> ModuleSpawnerSpawnPointsAroundPlayer()
+    private List<Vector2> ModuleSpawnerSpawnPointsAroundPlayer(float radius)
     {
         List<Vector2> pointsToReturn = new List<Vector2>();
-        int numberOfIterations = Mathf.RoundToInt((spawnerSpawningRadius - spawnerSpawningRadius % moduleSpawnerGridDistance) * 2 / moduleSpawnerGridDistance);
+        int numberOfIterations = Mathf.RoundToInt((radius - radius % moduleSpawnerGridDistance) * 2 / moduleSpawnerGridDistance);
         for (int y = 0; y < numberOfIterations; y++)
         {
             for (int x = 0; x < numberOfIterations; x++)
@@ -54,6 +58,14 @@ public class LevelGenerator : MonoBehaviour
             }
         }
         return pointsToReturn;
+    }
+
+    private void Start()
+    {
+        foreach (Vector2 point in ModuleSpawnerSpawnPointsAroundPlayer(playerSpawnAreaRadius))
+        {
+            moduleSpawners[NearestGridPosition(point)] = null;
+        }
     }
 
     private void OnValidate()
@@ -67,9 +79,8 @@ public class LevelGenerator : MonoBehaviour
 
     private void FixedUpdate()
     {
-        foreach (Vector2 point in ModuleSpawnerSpawnPointsAroundPlayer())
+        foreach (Vector2 point in ModuleSpawnerSpawnPointsAroundPlayer(spawnerSpawningRadius))
         {
-            //Debug.Log("iteration");
             TrySpawnModuleAtPosition(NearestGridPosition(point));
         }
     }
