@@ -12,6 +12,7 @@ public class CameraMovement : MonoBehaviour
     {
         GameObject playerObject = GameObject.FindGameObjectWithTag("Player");
         player = playerObject.GetComponent<SpringyThingyController>();
+        gameObject.transform.position = (Vector3)player.AveragePosition - Vector3.forward;
     }
 
     private void FixedUpdate()
