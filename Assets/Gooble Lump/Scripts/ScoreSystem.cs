@@ -21,7 +21,6 @@ public class ScoreSystem : MonoBehaviour
         }
         set
         {
-            Debug.Log(value);
             scoreDisplay.text = Mathf.RoundToInt(value).ToString();
             score = value;
         }
