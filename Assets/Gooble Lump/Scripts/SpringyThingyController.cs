@@ -116,7 +116,6 @@ public class SpringyThingyController : MonoBehaviour
         float turnDirection = Mathf.Sign(Vector2.Dot(forwardDirection, directionToTarget) * Vector2.Dot(leftDirection, directionToTarget));
         float dotProductToTarget = Mathf.Abs(Vector2.Dot(leftDirection, directionToTarget));
         float torqueToAdd = Mathf.Lerp(-angularVelocity * 0.005f, /*dotProductToTarget */ turnDirection, dotProductToTarget) * MaxTorque;
-        Debug.Log(torqueToAdd);
         return torqueToAdd;
 
         //float torqueToAdd = Vector2.Dot(-rb.transform.right, (Camera.main.ScreenToWorldPoint(Input.mousePosition) - rb.transform.position).normalized) * rotationSpeed;

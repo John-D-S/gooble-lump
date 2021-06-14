@@ -8,11 +8,24 @@ public class Lava : MonoBehaviour
 {
     [SerializeField]
     private float lavaRiseSpeed;
+    [SerializeField]
+    private float maxDistanceFromPlayer = 100;
 
     private void FixedUpdate()
     {
         float currentHeight = gameObject.transform.position.y;
-        gameObject.transform.position = new Vector3(player.AveragePosition.x, currentHeight + lavaRiseSpeed * Time.fixedDeltaTime);
+        if (player.AveragePosition.y - currentHeight > maxDistanceFromPlayer)
+        {
+            Debug.Log($"player height: {player.AveragePosition.y}, lava current height: {currentHeight}, player height - lava height: {player.AveragePosition.y - currentHeight}");
+            Debug.Log("lerping up");
+            float targetHeight = Mathf.Lerp(currentHeight, player.AveragePosition.y - maxDistanceFromPlayer + 1, 0.05f);
+            gameObject.transform.position = new Vector2(player.AveragePosition.x, targetHeight);
+        }
+        else
+        {
+            gameObject.transform.position = new Vector3(player.AveragePosition.x, currentHeight + lavaRiseSpeed * Time.fixedDeltaTime);
+        }
+        
         DestroyLevelModulesBelowPosition();
     }
 
