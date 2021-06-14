@@ -36,6 +36,8 @@ public class SpringyThingyController : MonoBehaviour
     [SerializeField]
     private ControlScheme controlScheme = ControlScheme.ArrowKeys;
 
+    private float forwardAimModifier = 1;
+
     private bool IndicateDirection
     {
         get
@@ -102,24 +104,31 @@ public class SpringyThingyController : MonoBehaviour
     void AddTorqueToBothHalves(float torqueToAdd)
     {
         Vector2 forceDirection = Vector2.Perpendicular(averageForwardDirection);
+        float distanceBetweenHalves = Vector2.Distance(halfA.position, halfB.position);
         halfA.AddForce(forceDirection * torqueToAdd);
         halfB.AddForce(forceDirection * -torqueToAdd);
+    }
+
+    private void FindForwardDirection()
+    {
+        Vector2 mousePositionInWorld = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        if (Vector2.Dot(mousePositionInWorld - AveragePosition, averageForwardDirection) > 0)
+            forwardAimModifier = 1;
+        else
+            forwardAimModifier = -1;
     }
 
     private float RotateTowardsTarget(Vector2 target)
     {
         Vector2 directionToTarget = (target - AveragePosition).normalized;
-        Vector2 forwardDirection = averageForwardDirection;
+        Vector2 forwardDirection = forwardAimModifier * averageForwardDirection;
         //if the thing rotates to be away from the mouse, change this to rightdirection and add a negative beforet the v2.perp
         Vector2 leftDirection = Vector2.Perpendicular(forwardDirection);
         float angularVelocity = Mathf.Lerp(halfA.angularVelocity, halfB.angularVelocity, 0.5f);
-        float turnDirection = Mathf.Sign(Vector2.Dot(forwardDirection, directionToTarget) * Vector2.Dot(leftDirection, directionToTarget));
+        float turnDirection = Mathf.Sign((Vector2.Dot(forwardDirection, directionToTarget) + 1) * 0.5f * Vector2.Dot(leftDirection, directionToTarget));
         float dotProductToTarget = Mathf.Abs(Vector2.Dot(leftDirection, directionToTarget));
-        float torqueToAdd = Mathf.Lerp(-angularVelocity * 0.005f, /*dotProductToTarget */ turnDirection, dotProductToTarget) * MaxTorque;
+        float torqueToAdd = Mathf.Lerp(-angularVelocity * 0.005f, turnDirection, dotProductToTarget) * MaxTorque;
         return torqueToAdd;
-
-        //float torqueToAdd = Vector2.Dot(-rb.transform.right, (Camera.main.ScreenToWorldPoint(Input.mousePosition) - rb.transform.position).normalized) * rotationSpeed;
-        //rb.AddTorque(Vector2.Dot(-rb.transform.right, (Camera.main.ScreenToWorldPoint(Input.mousePosition) - rb.transform.position).normalized) * rotationSpeed);
     }
 
     void ApplyTorque()
@@ -143,12 +152,19 @@ public class SpringyThingyController : MonoBehaviour
     {
         Extended = Input.GetMouseButton(0);
 
+        if (Input.GetMouseButtonDown(1))
+        {
+            FindForwardDirection();
+        }
+
         if (Input.GetMouseButton(1))
         {
             Vector2 mousePositionInWorld = Camera.main.ScreenToWorldPoint(Input.mousePosition);
             AddTorqueToBothHalves(RotateTowardsTarget(mousePositionInWorld));
             if (!extended)
                 IndicateDirection = true;
+            else
+                IndicateDirection = false;
         }
         else
             IndicateDirection = false;
