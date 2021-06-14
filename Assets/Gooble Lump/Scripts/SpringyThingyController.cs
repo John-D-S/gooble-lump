@@ -127,7 +127,7 @@ public class SpringyThingyController : MonoBehaviour
         float angularVelocity = Mathf.Lerp(halfA.angularVelocity, halfB.angularVelocity, 0.5f);
         float turnDirection = Mathf.Sign((Vector2.Dot(forwardDirection, directionToTarget) + 1) * 0.5f * Vector2.Dot(leftDirection, directionToTarget));
         float dotProductToTarget = Mathf.Abs(Vector2.Dot(leftDirection, directionToTarget));
-        float torqueToAdd = Mathf.Lerp(-angularVelocity * 0.005f, turnDirection, dotProductToTarget) * MaxTorque;
+        float torqueToAdd = Mathf.Lerp(-angularVelocity * 0.0025f, turnDirection, dotProductToTarget) * MaxTorque;
         return torqueToAdd;
     }
 
