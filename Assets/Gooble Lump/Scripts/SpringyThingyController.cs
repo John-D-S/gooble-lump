@@ -60,7 +60,7 @@ public class SpringyThingyController : MonoBehaviour
 
     public float AverageZRotation
     {
-        get => Mathf.Lerp(halfA.transform.rotation.eulerAngles.z, halfB.transform.rotation.eulerAngles.z, 0.5f);
+        get => Vector2.SignedAngle(Vector3.up, halfA.position - halfB.position);
         set { }
     }
 
@@ -101,8 +101,9 @@ public class SpringyThingyController : MonoBehaviour
 
     void AddTorqueToBothHalves(float torqueToAdd)
     {
-        halfA.AddTorque(torqueToAdd);
-        halfB.AddTorque(torqueToAdd);
+        Vector2 forceDirection = Vector2.Perpendicular(averageForwardDirection);
+        halfA.AddForce(forceDirection * torqueToAdd);
+        halfB.AddForce(forceDirection * -torqueToAdd);
     }
 
     private float RotateTowardsTarget(Vector2 target)
@@ -141,14 +142,17 @@ public class SpringyThingyController : MonoBehaviour
 
     private void MouseControlsUpdate()
     {
+        Extended = Input.GetMouseButton(0);
+
         if (Input.GetMouseButton(1))
         {
-
             Vector2 mousePositionInWorld = Camera.main.ScreenToWorldPoint(Input.mousePosition);
             AddTorqueToBothHalves(RotateTowardsTarget(mousePositionInWorld));
+            if (!extended)
+                IndicateDirection = true;
         }
-
-        Extended = Input.GetMouseButton(0);
+        else
+            IndicateDirection = false;
     }
 
     private void OnValidate()

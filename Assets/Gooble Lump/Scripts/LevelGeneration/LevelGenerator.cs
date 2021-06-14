@@ -41,6 +41,13 @@ public class LevelGenerator : MonoBehaviour
         if (!moduleSpawners.ContainsKey(_position) && WithinLevelGenerationArea(_position))
         {
             moduleSpawners[_position] = Instantiate(moduleSpawnerObject, _position, Quaternion.identity);
+            int yHeightInt = Mathf.RoundToInt(_position.y);
+            if (!LevelModulesByHeight.ContainsKey(yHeightInt))
+            {
+                LevelModulesByHeight[yHeightInt] = new List<GameObject>();
+                LevelModuleHeights.Enqueue(yHeightInt);
+            }
+            LevelModulesByHeight[yHeightInt].Add(moduleSpawners[_position]);
         }
     }
 

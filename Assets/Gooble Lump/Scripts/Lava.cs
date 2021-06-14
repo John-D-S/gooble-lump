@@ -13,6 +13,22 @@ public class Lava : MonoBehaviour
     {
         float currentHeight = gameObject.transform.position.y;
         gameObject.transform.position = new Vector3(player.AveragePosition.x, currentHeight + lavaRiseSpeed * Time.fixedDeltaTime);
+        DestroyLevelModulesBelowPosition();
+    }
+
+    private void DestroyLevelModulesBelowPosition()
+    {
+        int heightToCheck = LevelModuleHeights.Peek();
+        if (heightToCheck < transform.position.y)
+        {
+            if (LevelModulesByHeight.ContainsKey(heightToCheck))
+            {
+                foreach (GameObject LevelModule in LevelModulesByHeight[heightToCheck])
+                    Destroy(LevelModule);
+                LevelModulesByHeight.Remove(heightToCheck);
+                LevelModuleHeights.Dequeue();
+            }
+        }
     }
 
     private void OnCollisionStay2D(Collision2D collision)

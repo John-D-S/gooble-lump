@@ -174,8 +174,8 @@ MonoBehaviour:
   directionIndicator: {fileID: 157955845}
   extendedLength: -5
   springForce: 1000
-  MaxTorque: 3
-  AerodynamicAffect: 3
+  MaxTorque: 10
+  AerodynamicAffect: 6
   joint: {fileID: 1912046034}
   defaultJointLength: -0.5
   controlScheme: 1
