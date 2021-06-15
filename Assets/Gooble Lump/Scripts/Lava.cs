@@ -23,7 +23,6 @@ public class Lava : MonoBehaviour
         {
             gameObject.transform.position = new Vector3(player.AveragePosition.x, currentHeight + lavaRiseSpeed * Time.fixedDeltaTime);
         }
-        
         DestroyLevelModulesBelowPosition();
     }
 
@@ -46,6 +45,7 @@ public class Lava : MonoBehaviour
     {
         if (collision.collider.CompareTag("Player"))
         {
+            theScoreSystem.SaveScore();
             SceneManager.LoadScene("Main", LoadSceneMode.Single);
         }
     }
