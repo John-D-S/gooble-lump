@@ -29,6 +29,10 @@ public class ScoreSystem : MonoBehaviour
             else
                 return nameInput.text;
         }
+        set
+        {
+            nameInput.text = value;
+        }
     }
 
     private float score;
@@ -53,10 +57,12 @@ public class ScoreSystem : MonoBehaviour
 
     public void DisplayScore()
     {
+        //Debug.Log("DisplayScore() was called");
         theSaveLoadSystem.Load();
+        Debug.Log(theSaveLoadSystem.gameData.highScores == null);
         foreach (RectTransform child in highScoreListContainer)
         {
-            Destroy(child);
+            Destroy(child.gameObject);
         }
         for (int i = 0; i < theSaveLoadSystem.gameData.highScores.Count; i++)
         {
@@ -72,6 +78,8 @@ public class ScoreSystem : MonoBehaviour
         theSaveLoadSystem.Load();
         theSaveLoadSystem.gameData.AddScore(PlayerName, Mathf.RoundToInt(Score));
         theSaveLoadSystem.Save();
+        PlayerPrefs.SetString("CurrentPlayerName", PlayerName);
+        PlayerPrefs.Save();
     }
 
     private void OnValidate()
@@ -94,7 +102,10 @@ public class ScoreSystem : MonoBehaviour
     {
         playerStartingHeight = player.AveragePosition.y;
         playerMaxHeight = playerStartingHeight;
-
+        if (PlayerPrefs.HasKey("CurrentPlayerName"))
+        {
+            PlayerName = PlayerPrefs.GetString("CurrentPlayerName");
+        }
         DisplayScore();
     }
 

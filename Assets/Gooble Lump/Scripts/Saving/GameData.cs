@@ -22,6 +22,11 @@ namespace Saving
     {
         public List<NameScorePair> highScores;
 
+        public GameData()
+        {
+            highScores = new List<NameScorePair>();
+        }
+
         public int IndexOfName(string name)
         {
             for (int i = 0; i < highScores.Count; i++)
@@ -29,6 +34,8 @@ namespace Saving
                 if (highScores[i].name == name)
                     return i;
             }
+            if (highScores.Count == 0)
+                return 1;
             return highScores.Count;
         }
 
@@ -68,11 +75,18 @@ namespace Saving
         public void AddScore(string name, int score)
         {
             int indexOfName = IndexOfName(name);
+            Debug.Log($"indexOfName: {indexOfName}");
             if (indexOfName < highScores.Count)
+            {
                 if (highScores[indexOfName].score < score)
+                {
                     highScores[indexOfName] = new NameScorePair(name, score);
+                }
+            }
             else
+            {
                 highScores.Add(new NameScorePair(name, score));
+            }
             SortHighScores();
             TrimHighScores();
         }
