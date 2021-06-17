@@ -7,7 +7,9 @@ using static StaticObjectHolder;
 public class Lava : MonoBehaviour
 {
     [SerializeField]
-    private float lavaRiseSpeed;
+    private float lavaRiseInitialSpeed;
+    [SerializeField, Tooltip("how much faster the lava rises per minute")]
+    private float lavaRiseSpeedIncrease;
     [SerializeField]
     private float maxDistanceFromPlayer = 100;
 
@@ -21,7 +23,7 @@ public class Lava : MonoBehaviour
         }
         else
         {
-            gameObject.transform.position = new Vector3(player.AveragePosition.x, currentHeight + lavaRiseSpeed * Time.fixedDeltaTime);
+            gameObject.transform.position = new Vector3(player.AveragePosition.x, currentHeight + (lavaRiseInitialSpeed + lavaRiseSpeedIncrease * Time.time * 0.01666f) * Time.fixedDeltaTime);
         }
         DestroyLevelModulesBelowPosition();
     }
