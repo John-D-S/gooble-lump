@@ -173,9 +173,9 @@ MonoBehaviour:
   halfB: {fileID: 79204158}
   directionIndicator: {fileID: 157955845}
   extendedLength: -5
-  springForce: 1000
-  MaxTorque: 15
-  AerodynamicAffect: 10
+  springForce: 5000
+  MaxTorque: 20
+  AerodynamicAffect: 6
   joint: {fileID: 1912046034}
   defaultJointLength: -0.5
   controlScheme: 1
@@ -221,7 +221,7 @@ TrailRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 79204155}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
@@ -2456,8 +2456,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2e8f5d03e1fbcc04cb3378f5c91517d7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  lavaRiseInitialSpeed: 1
-  lavaRiseSpeedIncrease: 0.5
+  lavaRiseInitialSpeed: 0.5
+  lavaRiseSpeedIncrease: 0.25
   maxDistanceFromPlayer: 200
 --- !u!61 &1174551376
 BoxCollider2D:
@@ -4120,7 +4120,7 @@ RelativeJoint2D:
   m_ConnectedRigidBody: {fileID: 79204158}
   m_BreakForce: Infinity
   m_BreakTorque: Infinity
-  m_MaxForce: 1000
+  m_MaxForce: 5000
   m_MaxTorque: 1000
   m_CorrectionScale: 0.2
   m_AutoConfigureOffset: 1
@@ -4319,7 +4319,7 @@ TrailRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1912046032}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
