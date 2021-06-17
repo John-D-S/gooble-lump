@@ -133,8 +133,8 @@ public class SpringyThingyController : MonoBehaviour
 
     void ApplyTorque()
     {
-        float torqueToAdd = currentTorque * 0.5f * Vector2.Distance(halfA.position, halfB.position);
-        AddTorqueToBothHalves(torqueToAdd);
+        //float torqueToAdd = currentTorque * 0.5f * Vector2.Distance(halfA.position, halfB.position);
+        AddTorqueToBothHalves(currentTorque * 10);
         //currentTorque decays back down to zero.
         currentTorque = Mathf.Lerp(currentTorque, 0, 25f);
     }
@@ -160,7 +160,7 @@ public class SpringyThingyController : MonoBehaviour
         if (Input.GetMouseButton(1))
         {
             Vector2 mousePositionInWorld = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-            AddTorqueToBothHalves(RotateTowardsTarget(mousePositionInWorld));
+            currentTorque = RotateTowardsTarget(mousePositionInWorld);
             if (!extended)
                 IndicateDirection = true;
             else
@@ -206,10 +206,12 @@ public class SpringyThingyController : MonoBehaviour
             default:
                 break;
         }
+        //Debug.Log($"deltaTime: {Time.deltaTime}");
     }
 
     private void FixedUpdate()
     {
+        //Debug.Log($"fixedDeltaTime: {Time.fixedDeltaTime}");
         ApplyAerodynamics();
         ApplyTorque();
     }
