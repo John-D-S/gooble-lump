@@ -1,0 +1,14 @@
+fileFormatVersion: 2
+guid: b7f63b332d8084849bfa8e875172e3b7
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences:
+  - TopLeftLitSprite: {fileID: 21300000, guid: c688ad5710fe1864db77edfb979c4edd, type: 3}
+  - TopRightLitSprite: {fileID: 21300000, guid: 088bf2e33bb204143aa339765b90a8b6, type: 3}
+  - diagonalLightingSprite: {instanceID: 0}
+  executionOrder: 100
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
