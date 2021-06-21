@@ -82,6 +82,27 @@ public class ScoreSystem : MonoBehaviour
         PlayerPrefs.Save();
     }
 
+    private void InitializeScorekeeping()
+    {
+        playerStartingHeight = player.AveragePosition.y;
+        playerMaxHeight = playerStartingHeight;
+        if (PlayerPrefs.HasKey("CurrentPlayerName"))
+        {
+            PlayerName = PlayerPrefs.GetString("CurrentPlayerName");
+        }
+    }
+
+    private void UpdateScoreKeeping()
+    {
+        float playerHeight = player.AveragePosition.y;
+        if (playerHeight > playerMaxHeight)
+        {
+            playerMaxHeight = playerHeight;
+            Score = playerHeight - playerStartingHeight;
+        }
+        SetBarHeight(playerMaxHeight);
+    }
+
     private void OnValidate()
     {
         if (highScoreListItemPrefab)
@@ -100,23 +121,18 @@ public class ScoreSystem : MonoBehaviour
 
     private void Start()
     {
-        playerStartingHeight = player.AveragePosition.y;
-        playerMaxHeight = playerStartingHeight;
-        if (PlayerPrefs.HasKey("CurrentPlayerName"))
+        if (gameObject.scene.name == "Main")
         {
-            PlayerName = PlayerPrefs.GetString("CurrentPlayerName");
+            InitializeScorekeeping();
         }
         DisplayScore();
     }
 
     private void FixedUpdate()
     {
-        float playerHeight = player.AveragePosition.y;
-        if (playerHeight > playerMaxHeight)
+        if (gameObject.scene.name == "Main")
         {
-            playerMaxHeight = playerHeight;
-            Score = playerHeight - playerStartingHeight;
+            UpdateScoreKeeping();
         }
-        SetBarHeight(playerMaxHeight);
     }
 }
