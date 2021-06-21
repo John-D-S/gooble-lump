@@ -85,6 +85,10 @@ public class SpringyThingyController : MonoBehaviour
             extended = value;
         }
     }
+    public bool isExtended
+    {
+        get => extended;
+    }
     float currentTorque;
 
     void ApplyAerodynamics()

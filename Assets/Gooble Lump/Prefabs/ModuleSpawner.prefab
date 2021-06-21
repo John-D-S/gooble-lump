@@ -48,4 +48,4 @@ MonoBehaviour:
   - {fileID: 6129367994020762241, guid: 8e679ac5cca834548829b68ac0206203, type: 3}
   - {fileID: 2054251354022593743, guid: 5bc8fb5e5ca2e0948a2464edfcc476b3, type: 3}
   - {fileID: 2126609429333766450, guid: f08e2c4dcf7181c4d9a7d2d213a162b3, type: 3}
-  SpawnSquareSideLength: 20
+  SpawnSquareSideLength: 25
