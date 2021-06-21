@@ -7,6 +7,8 @@ public static class StaticObjectHolder
 {
     public static SpringyThingyController player;
 
+    public static BackgroundMusic theBackgroundMusic;
+
     public static SaveLoadSystem theSaveLoadSystem;
     public static ScoreSystem theScoreSystem;
 

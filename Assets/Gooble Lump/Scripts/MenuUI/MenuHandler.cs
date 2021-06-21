@@ -25,11 +25,8 @@ namespace Menu
         public TMP_Dropdown resolutionDropdown;
         private Resolution[] resolutions;
 
-        [Header("-- Audio Objects --")]
-        [SerializeField]
-        private AudioMixer sFXAudio;
-        [SerializeField]
-        private AudioMixer musicAudio;
+        [Header("-- Audio --")]
+        public AudioMixer masterMixer;
 
         [Header("-- Menu Objects --")]
         [SerializeField]
@@ -105,9 +102,9 @@ namespace Menu
         #region Volume
         public void ChangeSFXVolume(float _volume)
         {
-            if (sFXAudio)
+            if (masterMixer)
             {
-                sFXAudio.SetFloat("volume", _volume);
+                masterMixer.SetFloat("SFXVolume", _volume);
                 PlayerPrefs.SetFloat("SFXVolume", _volume);
                 PlayerPrefs.Save();
             }
@@ -116,35 +113,27 @@ namespace Menu
 
         public void ChangeMusicVolume(float _volume)
         {
-            if (musicAudio)
+            if (masterMixer)
             {
-                musicAudio.SetFloat("volume", _volume);
+                masterMixer.SetFloat("MusicVolume", _volume);
                 PlayerPrefs.SetFloat("MusicVolume", _volume);
                 PlayerPrefs.Save();
             }
-            else Debug.Log(_volume);
+            else Debug.Log(masterMixer);
         }
 
         public void SetMute(bool isMuted)
         {
-            if (musicAudio && sFXAudio)
+            if (masterMixer)
             {
                 if (isMuted)
-                {
-                    musicAudio.SetFloat("isMutedVolume", -80);
-                    sFXAudio.SetFloat("isMutedVolume", -80);
-                    PlayerPrefs.SetInt("Muted", 1);
-                    PlayerPrefs.Save();
-                }
+                    masterMixer.SetFloat("MasterVolume", -80f);
                 else
-                {
-                    musicAudio.SetFloat("isMutedVolume", 0);
-                    sFXAudio.SetFloat("isMutedVolume", 0);
-                    PlayerPrefs.SetInt("Muted", 0);
-                    PlayerPrefs.Save();
-                }
+                    masterMixer.SetFloat("MasterVolume", 0f);
+                PlayerPrefs.SetInt("IsMuted", isMuted ? 1 : 0);
+                PlayerPrefs.Save();
+                Debug.Log("IsMuted: " + isMuted);
             }
-            else Debug.Log("IsMuted: " + isMuted);
         }
         #endregion
 
@@ -160,6 +149,8 @@ namespace Menu
             if (Application.isEditor)
             {
                 Screen.fullScreen = isFullscreen;
+                PlayerPrefs.SetInt("IsFullscreen", isFullscreen ? 1 : 0);
+                PlayerPrefs.Save();
             }
         }
 
@@ -197,11 +188,11 @@ namespace Menu
         private void InitializeVolume()
         {
             if (PlayerPrefs.HasKey("MusicVolume"))
-                ChangeMusicVolume(PlayerPrefs.GetFloat("Volume"));
+                ChangeMusicVolume(PlayerPrefs.GetFloat("MusicVolume"));
             if (PlayerPrefs.HasKey("SFXVolume"))
-                ChangeSFXVolume(PlayerPrefs.GetFloat("Volume"));
+                ChangeSFXVolume(PlayerPrefs.GetFloat("SFXVolume"));
             if (PlayerPrefs.HasKey("IsMuted"))
-                SetMute(PlayerPrefs.GetInt("IsMuted") != 0);
+                SetMute(PlayerPrefs.GetInt("IsMuted") == 1);
         }
         #endregion
 
@@ -215,7 +206,6 @@ namespace Menu
         {
             Debug.Log("Not Yet Implemented");
         }
-
         #endregion
 
         public void Quit()
@@ -236,10 +226,14 @@ namespace Menu
                 MenuGoBack();
         }
 
+        private void Start()
+        {
+            InitializeVolume();
+        }
+
         private void Awake()
         {
             InitializeResolutions();
-            InitializeVolume();
             TheMenuHandler.theMenuHandler = this;
         }
     }

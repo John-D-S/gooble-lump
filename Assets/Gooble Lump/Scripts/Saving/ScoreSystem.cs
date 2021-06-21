@@ -57,9 +57,7 @@ public class ScoreSystem : MonoBehaviour
 
     public void DisplayScore()
     {
-        //Debug.Log("DisplayScore() was called");
         theSaveLoadSystem.Load();
-        Debug.Log(theSaveLoadSystem.gameData.highScores == null);
         foreach (RectTransform child in highScoreListContainer)
         {
             Destroy(child.gameObject);

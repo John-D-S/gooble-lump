@@ -3239,6 +3239,14 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: -546.3657
       objectReference: {fileID: 0}
+    - target: {fileID: 3340538543241785173, guid: f184a02e19da98c46af257be6e2419ae, type: 3}
+      propertyPath: sliderType
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4088235922944190356, guid: f184a02e19da98c46af257be6e2419ae, type: 3}
+      propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.size
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5175089029680432115, guid: f184a02e19da98c46af257be6e2419ae, type: 3}
       propertyPath: m_AnchorMax.y
       value: 1
@@ -3623,6 +3631,10 @@ PrefabInstance:
       propertyPath: m_sharedMaterial
       value: 
       objectReference: {fileID: -2491233369150868529, guid: ef91996fd7b065c47afdb4add08ab0d0, type: 2}
+    - target: {fileID: 9163960409426738092, guid: f184a02e19da98c46af257be6e2419ae, type: 3}
+      propertyPath: sliderType
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f184a02e19da98c46af257be6e2419ae, type: 3}
 --- !u!224 &1318252802 stripped
@@ -3805,8 +3817,7 @@ MonoBehaviour:
   menuSceneName: Menu
   gameSceneName: Main
   resolutionDropdown: {fileID: 1318252803}
-  sFXAudio: {fileID: 0}
-  musicAudio: {fileID: 0}
+  masterMixer: {fileID: 24100000, guid: a942137efb6dc5a48b81494523f7ea9a, type: 2}
   OptionsMenu: {fileID: 1318252804}
   HomeMenu: {fileID: 2058097456}
 --- !u!1 &1557361579

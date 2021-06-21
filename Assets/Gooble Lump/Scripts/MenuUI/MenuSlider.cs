@@ -24,6 +24,9 @@ namespace Menu
 
         private void OnValidate()
         {
+            slider.maxValue = 1;
+            slider.minValue = 0;
+            
             if (!slider)
                 slider = GetComponent<Slider>();
             if (!sliderText)
@@ -37,6 +40,18 @@ namespace Menu
         {
             menuHandler = TheMenuHandler.theMenuHandler;
             slider.onValueChanged.AddListener(PerformFunction);
+            switch (sliderType)
+            {
+                case MenuSliderType.Music:
+                    slider.value = Mathf.Pow((PlayerPrefs.GetFloat("MusicVolume") + 80) / 80, 2);
+                    break;
+                case MenuSliderType.Sound_Effects:
+                    slider.value = Mathf.Pow((PlayerPrefs.GetFloat("SFXVolume") + 80) / 80, 2);
+                    break;
+                default:
+                    break;
+            }
+
         }
 
         private void PerformFunction(float _value)
@@ -44,10 +59,10 @@ namespace Menu
             switch (sliderType)
             {
                 case MenuSliderType.Music:
-                    menuHandler.ChangeMusicVolume(_value);
+                    menuHandler.ChangeMusicVolume(Mathf.Sqrt(_value) * 80 - 80);
                     break;
                 case MenuSliderType.Sound_Effects:
-                    menuHandler.ChangeSFXVolume(_value);
+                    menuHandler.ChangeSFXVolume(Mathf.Sqrt(_value) * 80 - 80);
                     break;
                 default:
                     break;

@@ -36,7 +36,26 @@ namespace Menu
         private void Start()
         {
             menuHandler = TheMenuHandler.theMenuHandler;
-            toggle.onValueChanged.AddListener(delegate { PerformFunction( toggle ); } );
+
+            switch (toggleType)
+            {
+                case MenuToggleType.Fullscreen:
+                    if (PlayerPrefs.HasKey("isFullScreen"))
+                        toggle.isOn = PlayerPrefs.GetInt("IsFullScreen") == 1;
+                    else
+                        toggle.isOn = false;
+                    break;
+                case MenuToggleType.Mute:
+                    if (PlayerPrefs.HasKey("isMuted"))
+                        toggle.isOn = PlayerPrefs.GetInt("IsMuted") == 1;
+                    else
+                        toggle.isOn = false;
+                    break;
+                default:
+                    break;
+            }
+
+            toggle.onValueChanged.AddListener(delegate { PerformFunction( toggle.isOn ); } );
         }
 
         private void PerformFunction(bool _value)
