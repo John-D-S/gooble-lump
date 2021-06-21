@@ -17,6 +17,8 @@ public class SpringyThingyController : MonoBehaviour
     private Rigidbody2D halfB;
     [SerializeField]
     private GameObject directionIndicator;
+    [SerializeField]
+    private LineRenderer wingLine;
 
     [Header("-- Physics Settings --")]
     [SerializeField]
@@ -27,12 +29,12 @@ public class SpringyThingyController : MonoBehaviour
     private float MaxTorque = 1f;
     [SerializeField]
     float AerodynamicAffect = 0.75f;
-
+    
     [SerializeField, HideInInspector]
     private RelativeJoint2D joint;
     [SerializeField, HideInInspector]
     private float defaultJointLength;
-
+    
     [SerializeField]
     private ControlScheme controlScheme = ControlScheme.ArrowKeys;
 
@@ -111,11 +113,7 @@ public class SpringyThingyController : MonoBehaviour
 
     private void FindForwardDirection()
     {
-        Vector2 mousePositionInWorld = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-        if (Vector2.Dot(mousePositionInWorld - AveragePosition, averageForwardDirection) > 0)
-            forwardAimModifier = 1;
-        else
-            forwardAimModifier = -1;
+        forwardAimModifier = 1;
     }
 
     private float RotateTowardsTarget(Vector2 target)
@@ -134,7 +132,7 @@ public class SpringyThingyController : MonoBehaviour
     void ApplyTorque()
     {
         //float torqueToAdd = currentTorque * 0.5f * Vector2.Distance(halfA.position, halfB.position);
-        AddTorqueToBothHalves(currentTorque * 10);
+        AddTorqueToBothHalves(currentTorque * 15);
         //currentTorque decays back down to zero.
         currentTorque = Mathf.Lerp(currentTorque, 0, 25f);
     }
@@ -152,22 +150,29 @@ public class SpringyThingyController : MonoBehaviour
     {
         Extended = Input.GetMouseButton(0);
 
-        if (Input.GetMouseButtonDown(1))
-        {
-            FindForwardDirection();
-        }
-
-        if (Input.GetMouseButton(1))
-        {
-            Vector2 mousePositionInWorld = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-            currentTorque = RotateTowardsTarget(mousePositionInWorld);
-            if (!extended)
-                IndicateDirection = true;
-            else
-                IndicateDirection = false;
-        }
+        Vector2 mousePositionInWorld = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        currentTorque = RotateTowardsTarget(mousePositionInWorld);
+        if (!extended)
+            IndicateDirection = true;
         else
             IndicateDirection = false;
+    }
+
+    private void UpdateWingLineRenderer()
+    {
+        if (wingLine)
+        {
+            if (Extended)
+            {
+                wingLine.enabled = true;
+                wingLine.SetPosition(0, halfA.position);
+                wingLine.SetPosition(1, halfB.position);
+            }
+            else
+            {
+                wingLine.enabled = false;
+            }
+        }
     }
 
     private void OnValidate()
@@ -193,6 +198,11 @@ public class SpringyThingyController : MonoBehaviour
         StaticObjectHolder.player = this;
     }
 
+    private void Start()
+    {
+        FindForwardDirection();
+    }
+
     private void Update()
     {
         switch (controlScheme)
@@ -206,7 +216,7 @@ public class SpringyThingyController : MonoBehaviour
             default:
                 break;
         }
-        //Debug.Log($"deltaTime: {Time.deltaTime}");
+        UpdateWingLineRenderer();
     }
 
     private void FixedUpdate()
