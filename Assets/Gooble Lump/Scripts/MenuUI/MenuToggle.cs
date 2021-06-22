@@ -54,7 +54,7 @@ namespace Menu
                 default:
                     break;
             }
-            toggle.onValueChanged.RemoveAllListeners();
+            toggle.onValueChanged.RemoveAllListeners(); 
             toggle.onValueChanged.AddListener(delegate { PerformFunction( toggle.isOn ); } );
         }
 

@@ -19,8 +19,7 @@ public class MakeNoiseOnCollision : MonoBehaviour
     {
         if (collision.enabled && !audioSource.isPlaying)
         {
-            float velocityAtPoint = rigidbody.GetPointVelocity(collision.GetContact(0).point).magnitude - rigidbody.velocity.magnitude + pastVelocity;
-            float audioSourceVolume = -Mathf.Pow(2, -velocityAtPoint) + 1;
+            float audioSourceVolume = -Mathf.Pow(2, -pastVelocity * collisionVelocityMultiplier) + 1;
             audioSource.volume = audioSourceVolume;
             audioSource.Play();
         }
@@ -41,5 +40,10 @@ public class MakeNoiseOnCollision : MonoBehaviour
             yield return new WaitForFixedUpdate();
         }
         pastVelocity = storedVelocity;
+    }
+
+    private void FixedUpdate()
+    {
+        StartCoroutine(UpdatePastVelocity(3));
     }
 }
