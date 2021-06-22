@@ -12,7 +12,7 @@ namespace Menu
 
     public class MenuSlider : MonoBehaviour
     {
-        [SerializeField]
+        [SerializeField, Tooltip("What The Slider controls")]
         private MenuSliderType sliderType = MenuSliderType.Music;
 
         [SerializeField, HideInInspector]
@@ -32,14 +32,19 @@ namespace Menu
             if (!sliderText)
                 sliderText = GetComponentInChildren<TextMeshProUGUI>();
 
+            //set the text of the button to be the selected MenuSliderType text
             sliderText.text = sliderType.ToString().Replace("_", " ");
+            //remove all the listeners of the slider because they will cause an error
             slider.onValueChanged.RemoveAllListeners();
         }
 
         private void Start()
         {
+            //set the menu handler
             menuHandler = TheMenuHandler.theMenuHandler;
+            //set the onvaluchanged listener
             slider.onValueChanged.AddListener(PerformFunction);
+            //set the initial slider position to its respective position according to playerprefs
             switch (sliderType)
             {
                 case MenuSliderType.Music:
@@ -56,6 +61,8 @@ namespace Menu
 
         private void PerformFunction(float _value)
         {
+            //perform the appropriate function of the slider according to the selected SliderType
+            //the maths in here are to turn a value from 0-1 to -80-0
             switch (sliderType)
             {
                 case MenuSliderType.Music:

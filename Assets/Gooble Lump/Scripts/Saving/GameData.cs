@@ -4,6 +4,9 @@ using UnityEngine;
 
 namespace Saving
 {
+    /// <summary>
+    /// contains a name and a score and thats it.
+    /// </summary>
     [System.Serializable]
     public class NameScorePair
     {
@@ -17,16 +20,24 @@ namespace Saving
         }
     }
 
+    /// <summary>
+    /// used for saving;
+    /// </summary>
     [System.Serializable]
     public class GameData
     {
+        //these are where the high scores are stored
         public List<NameScorePair> highScores;
 
+        //the class initializer sets highScores to a new list of highScores
         public GameData()
         {
             highScores = new List<NameScorePair>();
         }
 
+        /// <summary>
+        /// returns the index of highscores at which the name, "name" appears;
+        /// </summary>
         public int IndexOfName(string name)
         {
             for (int i = 0; i < highScores.Count; i++)
@@ -39,6 +50,9 @@ namespace Saving
             return highScores.Count;
         }
 
+        /// <summary>
+        /// bubble sorts the highScores by each score
+        /// </summary>
         void SortHighScores()
         {
             List<NameScorePair> highScoresCopy = highScores;
@@ -62,6 +76,9 @@ namespace Saving
             highScores = highScoresCopy;
         }
 
+        /// <summary>
+        /// reduces the number of highscores down to 8 by removing the last members of the list.
+        /// </summary>
         void TrimHighScores()
         {
             int maxHighScores = 8;
@@ -72,6 +89,9 @@ namespace Saving
             }
         }
 
+        /// <summary>
+        /// Adds a highScore with name "name" and score "score" to the list of highscores and sorts it and trims it if the number of highscores excedes 8
+        /// </summary>
         public void AddScore(string name, int score)
         {
             int indexOfName = IndexOfName(name);
