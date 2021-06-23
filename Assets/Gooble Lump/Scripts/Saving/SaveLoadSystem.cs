@@ -12,7 +12,7 @@ namespace Saving
         // to load.save data in, in the Editor, it is the project folder,
         // in a build, it is in the .exe's build folder.
         private string FilePath => Application.streamingAssetsPath + "/gameData";
-        [SerializeField] private bool useBinary = false;
+        [SerializeField] private bool useBinary = true;
         public GameData gameData = new GameData();
 
         private void Start()

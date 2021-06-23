@@ -75,7 +75,7 @@ public class ScoreSystem : MonoBehaviour
     /// </summary>
     public void DisplayScore()
     {
-        //load the save data, destroy each of the current top highscores and add them back
+        //load the save data, destroy each of the current top highscores and then add the new ones back to be displayed.
         theSaveLoadSystem.Load();
         foreach (RectTransform child in highScoreListContainer)
         {
