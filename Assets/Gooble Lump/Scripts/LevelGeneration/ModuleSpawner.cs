@@ -4,9 +4,10 @@ using UnityEngine;
 
 public class ModuleSpawner : MonoBehaviour
 {
-    [SerializeField]
+    [Header("-- Module Spawning Settings --")]
+    [SerializeField, Tooltip("A List of all possible level modules")]
     private List<GameObject> levelModules;
-    [SerializeField]
+    [SerializeField, Tooltip("The length of the sides of the square within which the module will spawn")]
     public float SpawnSquareSideLength;
 
     private void Start()

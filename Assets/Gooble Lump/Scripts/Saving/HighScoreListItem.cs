@@ -6,6 +6,7 @@ using TMPro;
 [RequireComponent(typeof(RectTransform))]
 public class HighScoreListItem : MonoBehaviour
 {
+    [Header("-- HighScore Item Display Components --")]
     [SerializeField]
     private TextMeshProUGUI positionDisplay;
     [SerializeField]

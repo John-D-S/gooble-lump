@@ -15,6 +15,7 @@ namespace Menu
         [SerializeField]
         private MenuToggleType toggleType = MenuToggleType.Fullscreen;
 
+        //The toggle and Toggle text
         [SerializeField, HideInInspector]
         private Toggle toggle;
         [SerializeField, HideInInspector]
@@ -29,14 +30,18 @@ namespace Menu
             if (!toggleText)
                 toggleText = GetComponentInChildren<TextMeshProUGUI>();
 
+            //set the text of the toggle to be the selected menuToggleTypeText
             toggleText.text = toggleType.ToString().Replace("_", " ");
+            //remove all the listeners to avoid errors
             toggle.onValueChanged.RemoveAllListeners();
         }
 
         private void Start()
         {
+            //Set the menu handler
             menuHandler = TheMenuHandler.theMenuHandler;
 
+            //set the current toggle from the playerSettings
             switch (toggleType)
             {
                 case MenuToggleType.Fullscreen:
@@ -55,11 +60,13 @@ namespace Menu
                     break;
             }
             toggle.onValueChanged.RemoveAllListeners(); 
+            //set the onValuechanged listner
             toggle.onValueChanged.AddListener(delegate { PerformFunction( toggle.isOn ); } );
         }
 
         private void PerformFunction(bool _value)
         {
+            //perform the appropriate function of the toggle according to the selected toggleType
             switch (toggleType)
             {
                 case MenuToggleType.Fullscreen:

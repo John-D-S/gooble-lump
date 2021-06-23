@@ -10,8 +10,8 @@ public class MakeNoiseOnCollision : MonoBehaviour
     private float collisionVelocityMultiplier = 1;
 
     private AudioSource audioSource;
-    private Collider2D collider;
-    private Rigidbody2D rigidbody;
+    private Collider2D thisCollider;
+    private Rigidbody2D thisRigidbody;
 
     private float pastVelocity = 0;
 
@@ -21,7 +21,7 @@ public class MakeNoiseOnCollision : MonoBehaviour
     /// <param name="fixedUpdatesToWait">The number of FixedUpdates that the pastVelocity is taken From</param>
     private IEnumerator UpdatePastVelocity(int fixedUpdatesToWait)
     {
-        float storedVelocity = rigidbody.velocity.magnitude;
+        float storedVelocity = thisRigidbody.velocity.magnitude;
         for (int i = 0; i < fixedUpdatesToWait; i++)
         {
             yield return new WaitForFixedUpdate();
@@ -49,8 +49,8 @@ public class MakeNoiseOnCollision : MonoBehaviour
     {
         //setting the components
         audioSource = GetComponent<AudioSource>();
-        collider = GetComponentInParent<Collider2D>();
-        rigidbody = collider.attachedRigidbody;
+        thisCollider = GetComponentInParent<Collider2D>();
+        thisRigidbody = thisCollider.attachedRigidbody;
     }
 
     private void FixedUpdate()

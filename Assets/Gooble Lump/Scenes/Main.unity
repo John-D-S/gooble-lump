@@ -177,11 +177,10 @@ MonoBehaviour:
   wingLine: {fileID: 53941908}
   extendedLength: -5
   springForce: 5000
-  MaxTorque: 20
+  torqueMultiplier: 12
   AerodynamicAffect: 6
   joint: {fileID: 1912046034}
   defaultJointLength: -0.5
-  controlScheme: 1
 --- !u!120 &53941908
 LineRenderer:
   m_ObjectHideFlags: 0

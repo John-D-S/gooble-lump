@@ -7,9 +7,10 @@ using static StaticObjectHolder;
 [RequireComponent(typeof(AudioSource))]
 public class PlayerSoundEmitter : MonoBehaviour
 {
-    [SerializeField]
+    [Header("-- SoundSettings --")]
+    [SerializeField, Tooltip("The sound the player makes when extending")]
     private AudioClip extendSound;
-    [SerializeField]
+    [SerializeField, Tooltip("The sound the player makes when retracting")]
     private AudioClip retractSound;
 
     private AudioSource audioSource;
@@ -18,11 +19,13 @@ public class PlayerSoundEmitter : MonoBehaviour
 
     private void Start()
     {
+        //set the audio source component
         audioSource = GetComponent<AudioSource>();
     }
 
     private void FixedUpdate()
     {
+        //if the player extends or retracts, play the appropriate sound.
         if (player.isExtended != wasPlayerExtendedLastFrame)
         {
             audioSource.clip = player.isExtended ? extendSound : retractSound;
