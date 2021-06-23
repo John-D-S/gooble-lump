@@ -95,7 +95,6 @@ namespace Saving
         public void AddScore(string name, int score)
         {
             int indexOfName = IndexOfName(name);
-            Debug.Log($"indexOfName: {indexOfName}");
             if (indexOfName < highScores.Count)
             {
                 if (highScores[indexOfName].score < score)
